@@ -1,16 +1,15 @@
-package com.example.demo.security;
+package com.example.demo.model;
 
-import com.example.demo.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class MyUserPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails {
 
     private User user;
 
-    public MyUserPrincipal(User user) {
+    public UserPrincipal(User user) {
         this.user = user;
     }
 
@@ -47,5 +46,9 @@ public class MyUserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

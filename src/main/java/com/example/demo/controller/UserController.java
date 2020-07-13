@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.UserRegistrationDto;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -22,18 +24,19 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public ResponseEntity<User> getUser(Principal principal, @PathVariable Long id) {
         Optional<User> user = this.userService.getUser(id);
 
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         }
+
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(user));
+    public ResponseEntity<User> createUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(userRegistrationDto));
     }
 
     @PutMapping
